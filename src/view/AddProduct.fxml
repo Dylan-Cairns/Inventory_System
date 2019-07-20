@@ -75,7 +75,7 @@
                <children>
                   <HBox alignment="TOP_CENTER" prefWidth="466.0" spacing="10.0">
                      <children>
-                        <Button fx:id="searchButton" mnemonicParsing="false" text="Search" />
+                        <Button fx:id="searchButton" mnemonicParsing="false" onAction="#onActionSearchProduct" text="Search" />
                         <TextField fx:id="searchTxt" alignment="TOP_RIGHT" prefHeight="30.0" prefWidth="184.0" />
                      </children>
                   </HBox>
@@ -89,7 +89,7 @@
                   </TableView>
                   <HBox alignment="TOP_RIGHT" prefHeight="31.0" prefWidth="330.0" spacing="10.0">
                      <children>
-                        <Button fx:id="addButton" mnemonicParsing="false" text="Add" />
+                        <Button fx:id="addButton" mnemonicParsing="false" onAction="#onActionAddProduct" text="Add" />
                      </children>
                   </HBox>
                   <TableView fx:id="deleteProductTableview" prefHeight="200.0" prefWidth="200.0">
@@ -102,13 +102,13 @@
                   </TableView>
                   <HBox alignment="TOP_RIGHT" prefHeight="31.0" prefWidth="330.0" spacing="10.0">
                      <children>
-                        <Button fx:id="deleteButton" mnemonicParsing="false" text="Delete" />
+                        <Button fx:id="deleteButton" mnemonicParsing="false" onAction="#onActionDeleteProduct" text="Delete" />
                      </children>
                   </HBox>
                   <HBox alignment="TOP_RIGHT" prefHeight="31.0" prefWidth="330.0" spacing="10.0">
                      <children>
-                        <Button fx:id="saveButton" mnemonicParsing="false" text="Save" />
-                        <Button fx:id="cancelButton" mnemonicParsing="false" text="Cancel" />
+                        <Button fx:id="saveButton" mnemonicParsing="false" onAction="#onActionSaveProduct" text="Save" />
+                        <Button fx:id="cancelButton" mnemonicParsing="false" onAction="#onActionCancel" text="Cancel" />
                      </children>
                   </HBox>
                </children>

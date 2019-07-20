@@ -7,6 +7,7 @@ package controller;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -22,7 +23,7 @@ import javafx.scene.control.TextField;
  */
 public class ModifyProductController implements Initializable {
 
-    @FXML
+@FXML
     private Label IdLbl;
 
     @FXML
@@ -102,6 +103,31 @@ public class ModifyProductController implements Initializable {
 
     @FXML
     private Button cancelButton;
+
+    @FXML
+    void onActionAddProduct(ActionEvent event) {
+
+    }
+
+    @FXML
+    void onActionCancel(ActionEvent event) {
+
+    }
+
+    @FXML
+    void onActionDeleteProduct(ActionEvent event) {
+
+    }
+
+    @FXML
+    void onActionSaveProduct(ActionEvent event) {
+
+    }
+
+    @FXML
+    void onActionSearchProduct(ActionEvent event) {
+
+    }
     
     /**
      * Initializes the controller class.

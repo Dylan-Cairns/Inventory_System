@@ -24,8 +24,8 @@
                         <Font name="System Bold" size="18.0" />
                      </font>
                   </Label>
-                  <RadioButton fx:id="inHouseRadioButton" mnemonicParsing="false" prefHeight="20.0" prefWidth="109.0" text="In-house" />
-                  <RadioButton fx:id="outsourcedRadioButton" mnemonicParsing="false" prefHeight="20.0" prefWidth="120.0" text="Outsourced" />
+                  <RadioButton fx:id="inHouseRadioButton" mnemonicParsing="false" onAction="#onActionInhousePart" prefHeight="20.0" prefWidth="109.0" text="In-house" />
+                  <RadioButton fx:id="outsourcedRadioButton" mnemonicParsing="false" onAction="#onActionOutsourcedPart" prefHeight="20.0" prefWidth="120.0" text="Outsourced" />
                </children>
             </HBox>
             <GridPane alignment="TOP_RIGHT" hgap="10.0" vgap="10.0">
@@ -71,8 +71,8 @@
             </GridPane>
             <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="450.0" spacing="10.0">
                <children>
-                  <Button fx:id="saveButton" mnemonicParsing="false" text="Save" />
-                  <Button fx:id="cancelButton" mnemonicParsing="false" text="Cancel" />
+                  <Button fx:id="saveButton" mnemonicParsing="false" onAction="#onActionSavePart" text="Save" />
+                  <Button fx:id="cancelButton" mnemonicParsing="false" onAction="#onActionCancel" text="Cancel" />
                </children>
             </HBox>
          </children>
