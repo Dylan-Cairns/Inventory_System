@@ -112,6 +112,7 @@ public class MainMenuController implements Initializable {
     @FXML
     void onActionExit(ActionEvent event) {
 
+        System.exit(0);
     }
 
     @FXML
