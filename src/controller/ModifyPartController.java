@@ -28,8 +28,8 @@ import javafx.stage.Stage;
 public class ModifyPartController implements Initializable {
     
     Stage stage;
-    Parent scene;    
-
+    Parent scene;
+    
     @FXML
     private RadioButton inHouseRadioButton;
 
@@ -83,7 +83,7 @@ public class ModifyPartController implements Initializable {
 
     @FXML
     private Button cancelButton;
-    
+
     @FXML
     void onActionCancel(ActionEvent event) throws IOException {
 
@@ -95,12 +95,12 @@ public class ModifyPartController implements Initializable {
     }
 
     @FXML
-    void onActionInhousePart(ActionEvent event) {
+    void onActionPartInHouse(ActionEvent event) {
 
     }
 
     @FXML
-    void onActionOutsourcedPart(ActionEvent event) {
+    void onActionPartOutsourced(ActionEvent event) {
 
     }
 
