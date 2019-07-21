@@ -49,7 +49,7 @@
                         <TextField fx:id="idTxt" GridPane.columnIndex="1" />
                         <TextField fx:id="nameTxt" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                         <TextField fx:id="invTxt" prefWidth="285.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                        <TextField fx:id="priceLbl" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                        <TextField fx:id="priceTxt" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                         <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
                            <children>
                               <TextField fx:id="maxTxt" prefHeight="30.0" prefWidth="74.0" />

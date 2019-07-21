@@ -25,11 +25,12 @@
                         <Font name="System Bold" size="18.0" />
                      </font>
                   </Label>
-                  <RadioButton fx:id="inHouseRadioButton" mnemonicParsing="false" onAction="#onActionInhousePart" prefHeight="20.0" prefWidth="109.0" text="In-house">
+                  <RadioButton fx:id="inHouseRadioButton" mnemonicParsing="false" onAction="#onActionPartInHouse" prefHeight="20.0" prefWidth="109.0" text="In-house">
                      <toggleGroup>
-                        <ToggleGroup fx:id="inHouseToggle" />
-                     </toggleGroup></RadioButton>
-                  <RadioButton fx:id="outsourcedRadioButton" mnemonicParsing="false" onAction="#onActionOutsourcedPart" prefHeight="20.0" prefWidth="120.0" text="Outsourced" toggleGroup="$inHouseToggle" />
+                        <ToggleGroup fx:id="addPartToggle" />
+                     </toggleGroup>
+                  </RadioButton>
+                  <RadioButton fx:id="outsourcedRadioButton" mnemonicParsing="false" onAction="#onActionPartOutsourced" prefHeight="20.0" prefWidth="120.0" text="Outsourced" toggleGroup="$addPartToggle" />
                </children>
             </HBox>
             <GridPane alignment="TOP_RIGHT" hgap="10.0" vgap="10.0">

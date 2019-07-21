@@ -85,8 +85,13 @@ public class MainMenuController implements Initializable {
     private Button exitProgramButton;
 
     @FXML
-    void onActionAddPart(ActionEvent event) {
+    void onActionAddPart(ActionEvent event) throws IOException {
 
+        stage = (Stage) ((Button)event.getSource()).getScene().getWindow();
+        scene = FXMLLoader.load(getClass().getResource("/view/AddPart.fxml"));
+        stage.setScene(new Scene(scene));
+        stage.show();
+        
     }
 
     @FXML
@@ -116,13 +121,23 @@ public class MainMenuController implements Initializable {
     }
 
     @FXML
-    void onActionModifyPart(ActionEvent event) {
+    void onActionModifyPart(ActionEvent event) throws IOException {
 
+        stage = (Stage) ((Button)event.getSource()).getScene().getWindow();
+        scene = FXMLLoader.load(getClass().getResource("/view/ModifyPart.fxml"));
+        stage.setScene(new Scene(scene));
+        stage.show();
+        
     }
 
     @FXML
-    void onActionModifyProduct(ActionEvent event) {
+    void onActionModifyProduct(ActionEvent event) throws IOException {
 
+        stage = (Stage) ((Button)event.getSource()).getScene().getWindow();
+        scene = FXMLLoader.load(getClass().getResource("/view/ModifyProduct.fxml"));
+        stage.setScene(new Scene(scene));
+        stage.show();        
+        
     }
 
     @FXML

@@ -5,16 +5,21 @@
  */
 package controller;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 
 /**
  * FXML Controller class
@@ -23,7 +28,10 @@ import javafx.scene.control.TextField;
  */
 public class ModifyProductController implements Initializable {
 
-@FXML
+    Stage stage;
+    Parent scene;    
+    
+    @FXML
     private Label IdLbl;
 
     @FXML
@@ -33,7 +41,7 @@ public class ModifyProductController implements Initializable {
     private Label invLbl;
 
     @FXML
-    private TextField priceLbl;
+    private TextField priceTxt;
 
     @FXML
     private Label maxLbl;
@@ -110,8 +118,13 @@ public class ModifyProductController implements Initializable {
     }
 
     @FXML
-    void onActionCancel(ActionEvent event) {
+    void onActionCancel(ActionEvent event) throws IOException {
 
+        stage = (Stage) ((Button)event.getSource()).getScene().getWindow();
+        scene = FXMLLoader.load(getClass().getResource("/view/MainMenu.fxml"));
+        stage.setScene(new Scene(scene));
+        stage.show();        
+        
     }
 
     @FXML
