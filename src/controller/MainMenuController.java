@@ -19,7 +19,10 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
+import model.Part;
+import model.Product;
 
 /**
  *
@@ -37,19 +40,19 @@ public class MainMenuController implements Initializable {
     private TextField partsSearchTxt;
 
     @FXML
-    private TableView<?> partsTableview;
+    private TableView<Part> partsTableview;
 
     @FXML
-    private TableColumn<?, ?> partsTablePartIdCol;
+    private TableColumn<Part, Integer> partsTablePartIdCol;
 
     @FXML
-    private TableColumn<?, ?> partsTablePartNameCol;
+    private TableColumn<Part, String> partsTablePartNameCol;
 
     @FXML
-    private TableColumn<?, ?> partsTableInventoryLevelCol;
+    private TableColumn<Part, Integer> partsTableInventoryLevelCol;
 
     @FXML
-    private TableColumn<?, ?> partsTablePricePerUnitCol;
+    private TableColumn<Part, Integer> partsTablePricePerUnitCol;
 
     @FXML
     private Button addPartsButton;
@@ -65,18 +68,21 @@ public class MainMenuController implements Initializable {
 
     @FXML
     private TextField productsSearchTxt;
+    
+    @FXML
+    private TableView<Product> productsTableview;
 
     @FXML
-    private TableColumn<?, ?> ProductsTablePartIdCol;
+    private TableColumn<Product, Integer> ProductsTablePartIdCol;
 
     @FXML
-    private TableColumn<?, ?> ProductsTablePartNameCol;
+    private TableColumn<Product, String> ProductsTablePartNameCol;
 
     @FXML
-    private TableColumn<?, ?> ProductsTableInventoryLevelCol;
+    private TableColumn<Product, Integer> ProductsTableInventoryLevelCol;
 
     @FXML
-    private TableColumn<?, ?> ProductsTablePricePerUnitCol;
+    private TableColumn<Product, Double> ProductsTablePricePerUnitCol;
 
     @FXML
     private Button addProductsButton;
@@ -152,7 +158,27 @@ public class MainMenuController implements Initializable {
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        
+        partsTableview.setItems(model.Inventory.getAllParts());
+        
+        productsTableview.setItems(model.Inventory.getallProducts());
+        
+        partsTablePartIdCol.setCellValueFactory(new PropertyValueFactory<>("id"));
+        
+        partsTablePartNameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
+        
+        partsTableInventoryLevelCol.setCellValueFactory(new PropertyValueFactory<>("stock"));
+        
+        partsTablePricePerUnitCol.setCellValueFactory(new PropertyValueFactory<>("price"));
+
+        ProductsTablePartIdCol.setCellValueFactory(new PropertyValueFactory<>("id"));
+        
+        ProductsTablePartNameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
+        
+        ProductsTableInventoryLevelCol.setCellValueFactory(new PropertyValueFactory<>("stock"));
+        
+        ProductsTablePricePerUnitCol.setCellValueFactory(new PropertyValueFactory<>("price"));
+        
     }    
     
 }

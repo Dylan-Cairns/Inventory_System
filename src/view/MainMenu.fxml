@@ -65,7 +65,7 @@
                               <TextField fx:id="productsSearchTxt" alignment="TOP_RIGHT" prefHeight="30.0" prefWidth="184.0" />
                            </children>
                         </HBox>
-                        <TableView prefHeight="200.0" prefWidth="200.0">
+                        <TableView fx:id="productsTableview" prefHeight="200.0" prefWidth="200.0">
                            <columns>
                               <TableColumn fx:id="ProductsTablePartIdCol" prefWidth="75.0" text="Part ID" />
                               <TableColumn fx:id="ProductsTablePartNameCol" prefWidth="97.0" text="Part Name" />
