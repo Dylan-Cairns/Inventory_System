@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package controller;
 
 import java.io.IOException;
@@ -19,6 +14,9 @@ import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import model.InHouse;
+import model.Inventory;
+import model.Outsourced;
 
 /**
  * FXML Controller class
@@ -105,7 +103,24 @@ public class AddPartController implements Initializable {
     }
 
     @FXML
-    void onActionSavePart(ActionEvent event) {
+    void onActionSavePart(ActionEvent event) throws IOException {
+        int id = Integer.parseInt(idTxt.getText());
+        String name = nameText.getText();
+        double price = Double.parseDouble(priceCostTxt.getText());
+        int stock = Integer.parseInt(invText.getText());
+        int min = Integer.parseInt(minInvTxt.getText());
+        int max = Integer.parseInt(maxInvTxt.getText());
+        int machineId = Integer.parseInt(machineIDTxt.getText());
+        String companyName = null; 
+        
+        if(inHouseRadioButton.isSelected())
+        {
+            Inventory.addPart(new InHouse(id, name, price, stock, min, max, machineId));
+        }
+        else
+        {
+            Inventory.addPart(new Outsourced(id, name, price, stock, min, max, companyName));
+        }
 
     }
 
