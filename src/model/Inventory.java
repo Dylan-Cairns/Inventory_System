@@ -28,6 +28,42 @@ public class Inventory {
         allProducts.add(product);
     }
     
+    public boolean lookupPart(int id)
+    {
+        for(Part part : getAllParts())
+        {
+            if(part.getId() == id)
+                return true;
+        }
+        return false;
+    }
+    
+    public boolean lookupProduct(int id)
+    {
+        for(Product product : getallProducts())
+        {
+            if(product.getId() == id)
+                return true;
+        }
+        return false;
+    }
+    
+/*    public boolean updatePart (int id, String partName)
+    {
+         int index = -1;
+        
+        for (Part part : getallParts())
+        {
+            index++;
+            
+            if part.getId() == id
+                    {
+                        getallParts().set()
+                    }
+        }
+    }
+*/
+
     public static ObservableList<Part> getAllParts()
     {
         return allParts;

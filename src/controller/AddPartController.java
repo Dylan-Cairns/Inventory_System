@@ -109,19 +109,23 @@ public class AddPartController implements Initializable {
         double price = Double.parseDouble(priceCostTxt.getText());
         int stock = Integer.parseInt(invText.getText());
         int min = Integer.parseInt(minInvTxt.getText());
-        int max = Integer.parseInt(maxInvTxt.getText());
-        int machineId = Integer.parseInt(machineIDTxt.getText());
-        String companyName = null; 
+        int max = Integer.parseInt(maxInvTxt.getText());     
         
         if(inHouseRadioButton.isSelected())
         {
+            int machineId = Integer.parseInt(machineIDTxt.getText());
             Inventory.addPart(new InHouse(id, name, price, stock, min, max, machineId));
         }
         else
         {
+            String companyName = "widget inc"; 
             Inventory.addPart(new Outsourced(id, name, price, stock, min, max, companyName));
         }
 
+        stage = (Stage) ((Button)event.getSource()).getScene().getWindow();
+        scene = FXMLLoader.load(getClass().getResource("/view/MainMenu.fxml"));
+        stage.setScene(new Scene(scene));
+        stage.show();
     }
 
     

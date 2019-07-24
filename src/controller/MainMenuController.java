@@ -21,6 +21,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
+import model.Inventory;
 import model.Part;
 import model.Product;
 
@@ -178,7 +179,7 @@ public class MainMenuController implements Initializable {
         ProductsTableInventoryLevelCol.setCellValueFactory(new PropertyValueFactory<>("stock"));
         
         ProductsTablePricePerUnitCol.setCellValueFactory(new PropertyValueFactory<>("price"));
-        
+                
     }    
     
 }
