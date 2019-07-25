@@ -130,10 +130,29 @@ public class MainMenuController implements Initializable {
     @FXML
     void onActionModifyPart(ActionEvent event) throws IOException {
 
+        /* FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/view/ModifyPart.fxml"));
+        loader.load();
+        
+        ModifyPartController MPController = loader.getController();
+        MPController.recievePart(partsTableview.getSelectionModel().getSelectedItem());
+        
         stage = (Stage) ((Button)event.getSource()).getScene().getWindow();
-        scene = FXMLLoader.load(getClass().getResource("/view/ModifyPart.fxml"));
+        Parent scene = loader.getRoot();
         stage.setScene(new Scene(scene));
+        stage.show(); */
+        
+        Stage stage; 
+        Parent root;       
+        stage=(Stage) modifyPartsButton.getScene().getWindow();
+        //load up OTHER FXML document
+        FXMLLoader loader=new FXMLLoader(getClass().getResource("/view/ModifyPart.fxml"));
+        root =loader.load();
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
         stage.show();
+        ModifyPartController MPController = loader.getController();
+        MPController.recievePart(partsTableview.getSelectionModel().getSelectedItem());
         
     }
 
@@ -149,7 +168,10 @@ public class MainMenuController implements Initializable {
 
     @FXML
     void onActionSearchPart(ActionEvent event) {
-
+        //FIXME add method that uses a users search result to select an item in the table view.
+        // probably use the selection method:
+        // partsTableview.getSelectionModel().select(resultofsearchfunctionhere)
+        partsTableview.setItems(model.Inventory.lookupPart(partsSearchTxt.getText()));
     }
 
     @FXML
@@ -179,7 +201,12 @@ public class MainMenuController implements Initializable {
         ProductsTableInventoryLevelCol.setCellValueFactory(new PropertyValueFactory<>("stock"));
         
         ProductsTablePricePerUnitCol.setCellValueFactory(new PropertyValueFactory<>("price"));
-                
+        
+        //Inventory.deletePart(inHousePart2); - this doesn't work. but once I am getting the part object directly from the user selection input it should be fine.
+        
+        //System.out.println(Inventory.getAllParts());
+               
+        //System.out.println(Inventory.lookupPart("an"));
     }    
     
 }

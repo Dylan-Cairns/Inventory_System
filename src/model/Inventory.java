@@ -18,6 +18,10 @@ public class Inventory {
     
     private static ObservableList<Product> allProducts = FXCollections.observableArrayList();
     
+    private static ObservableList<Part> partsSearchResults = FXCollections.observableArrayList();
+    
+    private static ObservableList<Part> productsSearchResults = FXCollections.observableArrayList();
+    
     public static void addPart(Part part)
     {
         allParts.add(part);
@@ -28,41 +32,73 @@ public class Inventory {
         allProducts.add(product);
     }
     
-    public boolean lookupPart(int id)
+    public Part lookupPart(int id)
     {
         for(Part part : getAllParts())
         {
             if(part.getId() == id)
-                return true;
+                return part;
         }
-        return false;
+        return null;
     }
     
-    public boolean lookupProduct(int id)
+    public static ObservableList<Part> lookupPart(String partName) // FIXME add a if else statement to return the allproducts list if search is empty
+    {
+        if(partName == "")
+        {
+            return getAllParts();
+        }
+        if(!(partsSearchResults.isEmpty())); // if list is not empty, make it empty
+                {
+                    partsSearchResults.clear();
+                }
+        for(Part part : getAllParts())
+        {
+            if(part.getName().contains(partName))
+            {
+                partsSearchResults.add(part);
+            }
+        }
+        return partsSearchResults;
+    }
+    
+    public Product lookupProduct(int id)
     {
         for(Product product : getallProducts())
         {
             if(product.getId() == id)
-                return true;
+                return product;
         }
-        return false;
+        return null;
     }
     
-/*    public boolean updatePart (int id, String partName)
+    /*public boolean updatePart (int id, String partName)
     {
-         int index = -1;
+        int index = -1;
         
-        for (Part part : getallParts())
+        for (Part part : getAllParts())
         {
             index++;
             
-            if part.getId() == id
+            if (part.getId() == id)
                     {
-                        getallParts().set()
+                        getAllParts().set
+                        return true;
                     }
         }
+        return false;
+    } */
+
+    public static void deletePart(Part selectedPart)
+    {
+        for(Part part : getAllParts())
+        {
+            if(part.getId() == selectedPart.getId())
+                getAllParts().remove(part);
+            System.out.println("deleted!");
+        }
+        System.out.println("not found.");
     }
-*/
 
     public static ObservableList<Part> getAllParts()
     {
@@ -73,4 +109,6 @@ public class Inventory {
     {
         return allProducts;
     }
+    
 }
+

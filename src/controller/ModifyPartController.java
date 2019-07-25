@@ -19,6 +19,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import model.Part;
 
 /**
  * FXML Controller class
@@ -107,6 +108,26 @@ public class ModifyPartController implements Initializable {
     @FXML
     void onActionSavePart(ActionEvent event) {
 
+    }
+    
+    public void recievePart(Part part)
+    {
+        idTxt.setText(String.valueOf(part.getId()));
+        nameText.setText(part.getName());
+        invText.setText(String.valueOf(part.getStock()));
+        priceCostTxt.setText(String.valueOf(part.getPrice()));
+        maxInvTxt.setText(String.valueOf(part.getMax()));
+        minInvTxt.setText(String.valueOf(part.getMin()));
+        
+        if(part instanceof model.InHouse)
+        {
+            machineIDTxt.setText(String.valueOf(((model.InHouse) part).getMachineId()));
+        }
+        if(part instanceof model.Outsourced)
+        {
+            // FIXME add ability to set companyName; depends on displaying or greying out inhouse / outsourced relevant fields
+        }
+        
     }
     
     /**

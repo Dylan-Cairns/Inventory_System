@@ -49,9 +49,6 @@ public class DAC_Inventory_System extends Application {
         Inventory.addPart(outsourcedPart2);
         
         Inventory.addProduct(product1);
-        
-        
-        
        
         launch(args);
     }
