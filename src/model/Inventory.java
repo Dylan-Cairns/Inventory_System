@@ -42,7 +42,7 @@ public class Inventory {
         return null;
     }
     
-    public static ObservableList<Part> lookupPart(String partName) // FIXME add a if else statement to return the allproducts list if search is empty
+    public static ObservableList<Part> lookupPart(String partName)
     {
         if(partName == "")
         {
@@ -72,22 +72,10 @@ public class Inventory {
         return null;
     }
     
-    /*public boolean updatePart (int id, String partName)
+    public void updatePart (int index, Part selectedPart)
     {
-        int index = -1;
-        
-        for (Part part : getAllParts())
-        {
-            index++;
-            
-            if (part.getId() == id)
-                    {
-                        getAllParts().set
-                        return true;
-                    }
-        }
-        return false;
-    } */
+        getAllParts().set(index, selectedPart);
+    }
 
     public static void deletePart(Part selectedPart)
     {
@@ -96,6 +84,7 @@ public class Inventory {
             if(part.getId() == selectedPart.getId())
                 getAllParts().remove(part);
             System.out.println("deleted!");
+            return;
         }
         System.out.println("not found.");
     }

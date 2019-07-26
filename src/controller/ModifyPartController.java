@@ -7,6 +7,7 @@ package controller;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -14,11 +15,18 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import model.InHouse;
+import model.Inventory;
+import static model.Inventory.getAllParts;
+import model.Outsourced;
 import model.Part;
 
 /**
@@ -88,26 +96,83 @@ public class ModifyPartController implements Initializable {
     @FXML
     void onActionCancel(ActionEvent event) throws IOException {
 
-        stage = (Stage) ((Button)event.getSource()).getScene().getWindow();
-        scene = FXMLLoader.load(getClass().getResource("/view/MainMenu.fxml"));
-        stage.setScene(new Scene(scene));
-        stage.show();        
+            Alert alert = new Alert(AlertType.CONFIRMATION);
+            alert.setTitle("Confirmation Dialog");
+            alert.setContentText("Forget changes and return to main menu?");
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.get() == ButtonType.OK)
+            {
+                stage = (Stage) ((Button)event.getSource()).getScene().getWindow();
+                scene = FXMLLoader.load(getClass().getResource("/view/MainMenu.fxml"));
+                stage.setScene(new Scene(scene));
+                stage.show();
+            }      
         
     }
 
     @FXML
     void onActionPartInHouse(ActionEvent event) {
-
+        machineIDLabel.setText("Machine ID");
     }
 
     @FXML
     void onActionPartOutsourced(ActionEvent event) {
-
+        machineIDLabel.setText("Company Name");
     }
 
     @FXML
-    void onActionSavePart(ActionEvent event) {
+    void onActionSavePart(ActionEvent event) throws IOException {
+        try
+        {
+            int id = Integer.parseInt(idTxt.getText());
+            String name = nameText.getText();
+            double price = Double.parseDouble(priceCostTxt.getText());
+            int stock = Integer.parseInt(invText.getText());
+            int min = Integer.parseInt(minInvTxt.getText());
+            int max = Integer.parseInt(maxInvTxt.getText());  
+            Part tempInhousePart;
+            Part tempOutsourcedPart;
+        
+            if(inHouseRadioButton.isSelected())
+            {
+                int machineId = Integer.parseInt(machineIDTxt.getText());
+                tempInhousePart = new InHouse(id, name, price, stock, min, max, machineId);
+                
+                int index = -1;
+                for(Part part : getAllParts())
+                {
+                    index++;
+                    if(part.getId() == id)
+                    getAllParts().set(index, tempInhousePart);
+                }
+            }
+            else
+            {
+                String companyName = machineIDTxt.getText();
+                tempOutsourcedPart = new Outsourced(id, name, price, stock, min, max, companyName);
+                
+                int index = -1;
+                for(Part part : getAllParts())
+                {
+                    index++;
+                    if(part.getId() == id)
+                    getAllParts().set(index, tempOutsourcedPart);
+                }
+            }
 
+            stage = (Stage) ((Button)event.getSource()).getScene().getWindow();
+            scene = FXMLLoader.load(getClass().getResource("/view/MainMenu.fxml"));
+            stage.setScene(new Scene(scene));
+            stage.show();
+            }
+        
+        catch(NumberFormatException e)
+        {         
+            Alert alert = new Alert(AlertType.ERROR);
+            alert.setTitle("Error Dialog");
+            alert.setContentText("Please enter valid values in all text fields.");
+            alert.showAndWait();
+        }
     }
     
     public void recievePart(Part part)
@@ -122,10 +187,12 @@ public class ModifyPartController implements Initializable {
         if(part instanceof model.InHouse)
         {
             machineIDTxt.setText(String.valueOf(((model.InHouse) part).getMachineId()));
+            inHouseRadioButton.setSelected(true);
         }
         if(part instanceof model.Outsourced)
         {
-            // FIXME add ability to set companyName; depends on displaying or greying out inhouse / outsourced relevant fields
+            machineIDTxt.setText(String.valueOf(((model.Outsourced) part).getCompanyName()));
+            inHouseRadioButton.setSelected(true);
         }
         
     }

@@ -7,6 +7,7 @@ package controller;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -14,7 +15,10 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -113,7 +117,26 @@ public class MainMenuController implements Initializable {
 
     @FXML
     void onActionDeletePart(ActionEvent event) {
+        if(partsTableview.getSelectionModel().getSelectedItem() != null)
+        {
+            Alert alert = new Alert(AlertType.CONFIRMATION);
+            alert.setTitle("Confirmation Dialog");
+            alert.setContentText("Delete Part?");
 
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.get() == ButtonType.OK)
+            {
+                Inventory.deletePart(partsTableview.getSelectionModel().getSelectedItem());
+                partsTableview.setItems(model.Inventory.getAllParts());
+            } 
+        }
+        else
+        {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error Dialog");
+            alert.setContentText("Please select a part to delete.");
+            alert.showAndWait();
+        }
     }
 
     @FXML
@@ -129,23 +152,12 @@ public class MainMenuController implements Initializable {
 
     @FXML
     void onActionModifyPart(ActionEvent event) throws IOException {
-
-        /* FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("/view/ModifyPart.fxml"));
-        loader.load();
         
-        ModifyPartController MPController = loader.getController();
-        MPController.recievePart(partsTableview.getSelectionModel().getSelectedItem());
-        
-        stage = (Stage) ((Button)event.getSource()).getScene().getWindow();
-        Parent scene = loader.getRoot();
-        stage.setScene(new Scene(scene));
-        stage.show(); */
-        
+        if (partsTableview.getSelectionModel().getSelectedItem() != null)
+        {
         Stage stage; 
         Parent root;       
         stage=(Stage) modifyPartsButton.getScene().getWindow();
-        //load up OTHER FXML document
         FXMLLoader loader=new FXMLLoader(getClass().getResource("/view/ModifyPart.fxml"));
         root =loader.load();
         Scene scene = new Scene(root);
@@ -153,7 +165,14 @@ public class MainMenuController implements Initializable {
         stage.show();
         ModifyPartController MPController = loader.getController();
         MPController.recievePart(partsTableview.getSelectionModel().getSelectedItem());
-        
+        }
+        else
+        {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error Dialog");
+            alert.setContentText("Please select a part to modify.");
+            alert.showAndWait();
+        }
     }
 
     @FXML
@@ -168,9 +187,6 @@ public class MainMenuController implements Initializable {
 
     @FXML
     void onActionSearchPart(ActionEvent event) {
-        //FIXME add method that uses a users search result to select an item in the table view.
-        // probably use the selection method:
-        // partsTableview.getSelectionModel().select(resultofsearchfunctionhere)
         partsTableview.setItems(model.Inventory.lookupPart(partsSearchTxt.getText()));
     }
 
@@ -201,12 +217,7 @@ public class MainMenuController implements Initializable {
         ProductsTableInventoryLevelCol.setCellValueFactory(new PropertyValueFactory<>("stock"));
         
         ProductsTablePricePerUnitCol.setCellValueFactory(new PropertyValueFactory<>("price"));
-        
-        //Inventory.deletePart(inHousePart2); - this doesn't work. but once I am getting the part object directly from the user selection input it should be fine.
-        
-        //System.out.println(Inventory.getAllParts());
-               
-        //System.out.println(Inventory.lookupPart("an"));
-    }    
+       
+        }    
     
 }
