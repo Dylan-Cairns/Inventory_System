@@ -89,7 +89,7 @@ public class AddPartController implements Initializable {
     @FXML
     void onActionCancel(ActionEvent event) throws IOException {
 
-            Alert alert = new Alert(AlertType.CONFIRMATION);
+            Alert alert = new Alert(AlertType.CONFIRMATION); // confirm before returning to main menu
             alert.setTitle("Confirmation Dialog");
             alert.setContentText("Forget changes and return to main menu?");
             Optional<ButtonType> result = alert.showAndWait();
@@ -122,29 +122,41 @@ public class AddPartController implements Initializable {
             int stock = Integer.parseInt(invText.getText());
             int min = Integer.parseInt(minInvTxt.getText());
             int max = Integer.parseInt(maxInvTxt.getText());     
-        
-            if(inHouseRadioButton.isSelected())
-            {
-                int machineId = Integer.parseInt(machineIDTxt.getText());
-                Inventory.addPart(new InHouse(id, name, price, stock, min, max, machineId));
-            }
-            else
-            {
-                String companyName = machineIDTxt.getText();
-                Inventory.addPart(new Outsourced(id, name, price, stock, min, max, companyName));
-            }
 
-            stage = (Stage) ((Button)event.getSource()).getScene().getWindow();
-            scene = FXMLLoader.load(getClass().getResource("/view/MainMenu.fxml"));
-            stage.setScene(new Scene(scene));
-            stage.show();
+            if (min >= max) //check min is less than max inventory
+            {
+                Alert alert = new Alert(AlertType.ERROR);
+                alert.setTitle("Error Dialog");
+                alert.setContentText("Maximum value must be greater than minimum");
+                alert.showAndWait();
+            }
+            else if(stock < min || stock > max) // check entered stock level is between min and max
+            {
+                Alert alert = new Alert(AlertType.ERROR);
+                alert.setTitle("Error Dialog");
+                alert.setContentText("Stock value must be between Minimum and Maximum");
+                alert.showAndWait();
+            }
+            else { // add new part
+                if(inHouseRadioButton.isSelected())
+                {
+                    int machineId = Integer.parseInt(machineIDTxt.getText());
+                    Inventory.addPart(new InHouse(id, name, price, stock, min, max, machineId));
+                }
+                else
+                {
+                    String companyName = machineIDTxt.getText();
+                    Inventory.addPart(new Outsourced(id, name, price, stock, min, max, companyName));
+                }
+
+                stage = (Stage) ((Button)event.getSource()).getScene().getWindow();
+                scene = FXMLLoader.load(getClass().getResource("/view/MainMenu.fxml"));
+                stage.setScene(new Scene(scene));
+                stage.show();    
+                }
         }
         catch(NumberFormatException e)
-        {
-            //System.out.println("Please enter valid values in all text fields.");
-            //System.out.println("Exception " + e);
-            //System.out.println("Exception" + e.getMessage());
-            
+        {           
             Alert alert = new Alert(AlertType.ERROR);
             alert.setTitle("Error Dialog");
             alert.setContentText("Please enter valid values in all text fields.");

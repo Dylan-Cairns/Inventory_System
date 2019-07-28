@@ -94,9 +94,9 @@ public class ModifyPartController implements Initializable {
     private Button cancelButton;
 
     @FXML
-    void onActionCancel(ActionEvent event) throws IOException {
+    void onActionCancel(ActionEvent event) throws IOException { 
 
-            Alert alert = new Alert(AlertType.CONFIRMATION);
+            Alert alert = new Alert(AlertType.CONFIRMATION); // confirm before returning to main menu
             alert.setTitle("Confirmation Dialog");
             alert.setContentText("Forget changes and return to main menu?");
             Optional<ButtonType> result = alert.showAndWait();
@@ -130,41 +130,56 @@ public class ModifyPartController implements Initializable {
             int stock = Integer.parseInt(invText.getText());
             int min = Integer.parseInt(minInvTxt.getText());
             int max = Integer.parseInt(maxInvTxt.getText());  
-            Part tempInhousePart;
-            Part tempOutsourcedPart;
-        
-            if(inHouseRadioButton.isSelected())
+            InHouse tempInhousePart;
+            Outsourced tempOutsourcedPart;
+            
+            if (min >= max) //check min is less than max inventory
             {
-                int machineId = Integer.parseInt(machineIDTxt.getText());
-                tempInhousePart = new InHouse(id, name, price, stock, min, max, machineId);
-                
-                int index = -1;
-                for(Part part : getAllParts())
-                {
-                    index++;
-                    if(part.getId() == id)
-                    getAllParts().set(index, tempInhousePart);
-                }
+                Alert alert = new Alert(AlertType.ERROR);
+                alert.setTitle("Error Dialog");
+                alert.setContentText("Maximum value must be greater than minimum");
+                alert.showAndWait();
             }
-            else
+            else if(stock < min || stock > max) // check entered stock level is between min and max
             {
-                String companyName = machineIDTxt.getText();
-                tempOutsourcedPart = new Outsourced(id, name, price, stock, min, max, companyName);
-                
-                int index = -1;
-                for(Part part : getAllParts())
+                Alert alert = new Alert(AlertType.ERROR);
+                alert.setTitle("Error Dialog");
+                alert.setContentText("Stock value must be between Minimum and Maximum");
+                alert.showAndWait();
+            }
+            else { // update part
+                if(inHouseRadioButton.isSelected())
                 {
-                    index++;
-                    if(part.getId() == id)
-                    getAllParts().set(index, tempOutsourcedPart);
+                    int machineId = Integer.parseInt(machineIDTxt.getText());
+                    tempInhousePart = new InHouse(id, name, price, stock, min, max, machineId);
+                    
+                    int index = -1;
+                    for(Part part : getAllParts())
+                    {
+                        index++;
+                        if(part.getId() == id)
+                        getAllParts().set(index, tempInhousePart);
+                    }
                 }
+                else
+                {
+                    String companyName = machineIDTxt.getText();
+                    tempOutsourcedPart = new Outsourced(id, name, price, stock, min, max, companyName);
+                    System.out.println(tempOutsourcedPart.getCompanyName());
+                    int index = -1;
+                    for(Part part : getAllParts())
+                    {
+                        index++;
+                        if(part.getId() == id)
+                        getAllParts().set(index, tempOutsourcedPart);
+                    }
+                }
+                stage = (Stage) ((Button)event.getSource()).getScene().getWindow();
+                scene = FXMLLoader.load(getClass().getResource("/view/MainMenu.fxml"));
+                stage.setScene(new Scene(scene));
+                stage.show();
             }
-
-            stage = (Stage) ((Button)event.getSource()).getScene().getWindow();
-            scene = FXMLLoader.load(getClass().getResource("/view/MainMenu.fxml"));
-            stage.setScene(new Scene(scene));
-            stage.show();
-            }
+        }
         
         catch(NumberFormatException e)
         {         
@@ -188,11 +203,13 @@ public class ModifyPartController implements Initializable {
         {
             machineIDTxt.setText(String.valueOf(((model.InHouse) part).getMachineId()));
             inHouseRadioButton.setSelected(true);
+            machineIDLabel.setText("Machine ID");
         }
-        if(part instanceof model.Outsourced)
+        else if(part instanceof model.Outsourced)
         {
             machineIDTxt.setText(String.valueOf(((model.Outsourced) part).getCompanyName()));
-            inHouseRadioButton.setSelected(true);
+            outsourcedRadioButton.setSelected(true);
+            machineIDLabel.setText("Company Name");
         }
         
     }
