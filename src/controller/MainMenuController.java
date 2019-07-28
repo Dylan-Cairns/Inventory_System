@@ -192,7 +192,7 @@ public class MainMenuController implements Initializable {
 
     @FXML
     void onActionSearchProduct(ActionEvent event) {
-
+        //productsTableview.setItems(model.Inventory.lookupProduct(productsSearchTxt.getText()));
     }
     
     @Override
@@ -200,7 +200,7 @@ public class MainMenuController implements Initializable {
         
         partsTableview.setItems(model.Inventory.getAllParts());
         
-        productsTableview.setItems(model.Inventory.getallProducts());
+        productsTableview.setItems(model.Inventory.getAllProducts());
         
         partsTablePartIdCol.setCellValueFactory(new PropertyValueFactory<>("id"));
         

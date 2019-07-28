@@ -171,7 +171,15 @@ public class AddPartController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        
+        // automatically set ID 
+        int largestIdValue = -1;
+        for(model.Part part : model.Inventory.getAllParts())
+        {
+            if(part.getId() > largestIdValue)
+                largestIdValue = part.getId();
+        }
+        idTxt.setText(String.valueOf(largestIdValue + 1));
     }    
     
 }

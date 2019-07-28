@@ -20,7 +20,7 @@ public class Inventory {
     
     private static ObservableList<Part> partsSearchResults = FXCollections.observableArrayList();
     
-    private static ObservableList<Part> productsSearchResults = FXCollections.observableArrayList();
+    private static ObservableList<Product> productsSearchResults = FXCollections.observableArrayList();
     
     public static void addPart(Part part)
     {
@@ -38,6 +38,16 @@ public class Inventory {
         {
             if(part.getId() == id)
                 return part;
+        }
+        return null;
+    }
+       
+    public static Product lookupProduct(int id)
+    {
+        for(Product product : getAllProducts())
+        {
+            if(product.getId() == id)
+                return product;
         }
         return null;
     }
@@ -62,14 +72,24 @@ public class Inventory {
         return partsSearchResults;
     }
     
-    public Product lookupProduct(int id)
+    public static ObservableList<Product> lookupProduct(String productName)
     {
-        for(Product product : getallProducts())
+        if(productName == "")
         {
-            if(product.getId() == id)
-                return product;
+            return getAllProducts();
         }
-        return null;
+        if(!(productsSearchResults.isEmpty())); // if list is not empty, make it empty
+                {
+                    productsSearchResults.clear();
+                }
+        for(Product product : getAllProducts())
+        {
+            if(product.getName().contains(productName))
+            {
+                productsSearchResults.add(product);
+            }
+        }
+        return productsSearchResults;
     }
     
     public void updatePart (int index, Part selectedPart)
@@ -82,9 +102,25 @@ public class Inventory {
         for(Part part : getAllParts())
         {
             if(part.getId() == selectedPart.getId())
+            {
                 getAllParts().remove(part);
-            System.out.println("deleted!");
-            return;
+                System.out.println("deleted!");
+                return;
+            }
+        }
+        System.out.println("not found.");
+    }
+    
+    public static void deleteProduct(Product selectedProduct)
+    {
+        for(Product product : getAllProducts())
+        {
+            if(product.getId() == selectedProduct.getId())
+            {
+                getAllProducts().remove(product);
+                System.out.println("deleted!");
+                return;
+            }
         }
         System.out.println("not found.");
     }
@@ -94,7 +130,7 @@ public class Inventory {
         return allParts;
     }
     
-    public static ObservableList<Product> getallProducts()
+    public static ObservableList<Product> getAllProducts()
     {
         return allProducts;
     }

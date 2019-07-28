@@ -52,7 +52,7 @@
                   <Label fx:id="priceCostLbl" text="Price/ Cost" GridPane.rowIndex="3" />
                   <Label fx:id="maxInvLbl" text="Max" GridPane.rowIndex="4" />
                   <Label fx:id="machineIDLabel" text="Machine ID" GridPane.rowIndex="5" />
-                  <TextField fx:id="idTxt" GridPane.columnIndex="1" />
+                  <TextField fx:id="idTxt" disable="true" editable="false" GridPane.columnIndex="1" />
                   <TextField fx:id="nameText" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                   <TextField fx:id="invText" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                   <TextField fx:id="priceCostTxt" GridPane.columnIndex="1" GridPane.rowIndex="3" />
