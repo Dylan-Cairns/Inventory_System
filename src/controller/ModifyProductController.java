@@ -9,6 +9,8 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -121,11 +123,13 @@ public class ModifyProductController implements Initializable {
 
     @FXML
     private Button cancelButton;
+    
+    public Product tempAssocParts = new Product(0, "", 0.00, 0, 0, 0); //initialize a product variable to hold temporary associated parts values.
 
     @FXML
     void onActionAddPart(ActionEvent event) {
-        (Inventory.lookupProduct(Integer.parseInt(idTxt.getText()))).addAssociatedPart(addPartTableview.getSelectionModel().getSelectedItem());
-        deletePartTableview.setItems((Inventory.lookupProduct(Integer.parseInt(idTxt.getText()))).getAllAssociatedParts());
+        tempAssocParts.addAssociatedPart(addPartTableview.getSelectionModel().getSelectedItem());
+        deletePartTableview.setItems(tempAssocParts.getAllAssociatedParts());
     }
 
     @FXML
@@ -146,8 +150,25 @@ public class ModifyProductController implements Initializable {
 
     @FXML
     void onActionDeletePart(ActionEvent event) {
-        (Inventory.lookupProduct(Integer.parseInt(idTxt.getText()))).deleteAssociatedPart(deletePartTableview.getSelectionModel().getSelectedItem());
-        deletePartTableview.setItems((Inventory.lookupProduct(Integer.parseInt(idTxt.getText()))).getAllAssociatedParts());
+        if(deletePartTableview.getSelectionModel().getSelectedItem() != null)
+        {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Confirmation Dialog");
+            alert.setContentText("Delete Part?");
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.get() == ButtonType.OK)
+            {
+                tempAssocParts.deleteAssociatedPart(deletePartTableview.getSelectionModel().getSelectedItem());
+                deletePartTableview.setItems(tempAssocParts.getAllAssociatedParts());
+            }
+        }
+        else
+        {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error Dialog");
+            alert.setContentText("Please select a part to delete.");
+            alert.showAndWait();
+        }
     }
 
     @FXML
@@ -162,7 +183,8 @@ public class ModifyProductController implements Initializable {
             int max = Integer.parseInt(maxTxt.getText());
             double tempminPrice = 0.00;
             Product tempProduct = new Product(id, name, price, stock, min, max);
-            for(Part part : (Inventory.lookupProduct(Integer.parseInt(idTxt.getText()))).getAllAssociatedParts())
+            
+            for(Part part : tempAssocParts.getAllAssociatedParts())
             {
                 tempminPrice += part.getPrice();
             }
@@ -188,13 +210,26 @@ public class ModifyProductController implements Initializable {
                 alert.setContentText("Product price should be greater than total cost of associated parts. Total cost of associated parts is " + tempminPrice);
                 alert.showAndWait();
             }
+            else if(tempAssocParts.getAllAssociatedParts().isEmpty())
+            {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error Dialog");
+                alert.setContentText("Product should have at least one associated part.");
+                alert.showAndWait();
+            }
             else { // modify product
                 int index = -1;
                 for(Product product : Inventory.getAllProducts())
                 {
                     index++;
                     if(product.getId() == tempProduct.getId())
+                    {
                         Inventory.updateProduct(index, tempProduct);
+                        for(Part part : tempAssocParts.getAllAssociatedParts())
+                        {
+                            Inventory.lookupProduct(id).addAssociatedPart(part);
+                        }
+                    }
                 }
                 
                 stage = (Stage) ((Button)event.getSource()).getScene().getWindow();
@@ -226,6 +261,10 @@ public class ModifyProductController implements Initializable {
         priceTxt.setText(String.valueOf(product.getPrice()));
         maxTxt.setText(String.valueOf(product.getMax()));
         minTxt.setText(String.valueOf(product.getMin()));
+        for(Part part : product.getAllAssociatedParts())
+        {
+            tempAssocParts.addAssociatedPart(part);
+        }
     }
     /**
      * Initializes the controller class.
@@ -242,12 +281,8 @@ public class ModifyProductController implements Initializable {
         addPartTableviewInvLevelCol.setCellValueFactory(new PropertyValueFactory<>("stock"));
         
         addPartTableviewPricePerUnitCol.setCellValueFactory(new PropertyValueFactory<>("price"));
-        
-        
-        //if((Inventory.lookupProduct(Integer.parseInt(idTxt.getText()))).getAllAssociatedParts() != null)
-        //{
-        //    deletePartTableview.setItems((Inventory.lookupProduct(Integer.parseInt(idTxt.getText()))).getAllAssociatedParts());
-        //}
+             
+        deletePartTableview.setItems(tempAssocParts.getAllAssociatedParts());
             
         deletePartTableviewPartIdCol.setCellValueFactory(new PropertyValueFactory<>("id"));
         
@@ -256,7 +291,7 @@ public class ModifyProductController implements Initializable {
         deletePartTableviewInventoryLevelCol.setCellValueFactory(new PropertyValueFactory<>("stock"));
         
         deletePartTableviewPricePerUnitCol.setCellValueFactory(new PropertyValueFactory<>("price"));
-        
+                
     }    
     
 }

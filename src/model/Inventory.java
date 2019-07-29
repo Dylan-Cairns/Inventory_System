@@ -32,7 +32,7 @@ public class Inventory {
         allProducts.add(product);
     }
     
-    public Part lookupPart(int id)
+    public static Part lookupPart(int id)
     {
         for(Part part : getAllParts())
         {

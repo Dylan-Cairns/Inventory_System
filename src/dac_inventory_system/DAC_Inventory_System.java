@@ -36,20 +36,18 @@ public class DAC_Inventory_System extends Application {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        InHouse inHousePart1 = new InHouse(1, "widget", 8.45, 33, 5, 50, 1);
-        InHouse inHousePart2 = new InHouse(2, "whatsit", 6.77, 45, 5, 50, 2);
-        Outsourced outsourcedPart1 = new Outsourced(3, "cranker", 10.66, 20, 5, 25, "Crankers Inc");
-        Outsourced outsourcedPart2 = new Outsourced(4, "banger", 5.88, 10, 5, 60, "Bangers and co");
+        // add test data to inventory
+        Inventory.addPart(new InHouse(1, "widget", 8.45, 33, 5, 50, 1));
+        Inventory.addPart(new InHouse(2, "whatsit", 6.77, 45, 5, 50, 2));
+        Inventory.addPart(new Outsourced(3, "cranker", 10.66, 20, 5, 25, "Crankers Inc"));
+        Inventory.addPart(new Outsourced(4, "banger", 5.88, 10, 5, 60, "Bangers and co"));
+        Inventory.addProduct(new Product(1, "Crankbanger 1000", 99.99, 59, 5, 60));
+        Inventory.addProduct(new Product(2, "Donkey Prodder 8", 67.99, 45, 5, 50));
+        Inventory.lookupProduct(1).addAssociatedPart(Inventory.lookupPart(1));
+        Inventory.lookupProduct(1).addAssociatedPart(Inventory.lookupPart(2));
+        Inventory.lookupProduct(2).addAssociatedPart(Inventory.lookupPart(3));
+        Inventory.lookupProduct(2).addAssociatedPart(Inventory.lookupPart(4));
         
-        Product product1 = new Product(1, "Crankbanger 1000", 99.99, 59, 5, 50);
-        
-        Inventory.addPart(inHousePart1);
-        Inventory.addPart(inHousePart2);
-        Inventory.addPart(outsourcedPart1);
-        Inventory.addPart(outsourcedPart2);
-        
-        Inventory.addProduct(product1);
-       
         launch(args);
     }
     
