@@ -92,9 +92,14 @@ public class Inventory {
         return productsSearchResults;
     }
     
-    public void updatePart (int index, Part selectedPart)
+    public static void updatePart (int index, Part selectedPart)
     {
         getAllParts().set(index, selectedPart);
+    }
+    
+    public static void updateProduct (int index, Product selectedProduct)
+    {
+        getAllProducts().set(index, selectedProduct);
     }
 
     public static void deletePart(Part selectedPart)
@@ -118,11 +123,11 @@ public class Inventory {
             if(product.getId() == selectedProduct.getId())
             {
                 getAllProducts().remove(product);
-                System.out.println("deleted!");
+                //System.out.println("deleted!");
                 return;
             }
         }
-        System.out.println("not found.");
+        //System.out.println("not found.");
     }
 
     public static ObservableList<Part> getAllParts()

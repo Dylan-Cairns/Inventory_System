@@ -91,6 +91,9 @@ public class MainMenuController implements Initializable {
 
     @FXML
     private Button addProductsButton;
+    
+    @FXML
+    private Button modifyProductsButton;
 
     @FXML
     private Button exitProgramButton;
@@ -141,7 +144,26 @@ public class MainMenuController implements Initializable {
 
     @FXML
     void onActionDeleteProduct(ActionEvent event) {
+        if(productsTableview.getSelectionModel().getSelectedItem() != null)
+        {
+            Alert alert = new Alert(AlertType.CONFIRMATION);
+            alert.setTitle("Confirmation Dialog");
+            alert.setContentText("Delete Product?");
 
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.get() == ButtonType.OK)
+            {
+                Inventory.deleteProduct(productsTableview.getSelectionModel().getSelectedItem());
+                productsTableview.setItems(model.Inventory.getAllProducts());
+            } 
+        }
+        else
+        {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error Dialog");
+            alert.setContentText("Please select a part to delete.");
+            alert.showAndWait();
+        }
     }
 
     @FXML
@@ -178,11 +200,26 @@ public class MainMenuController implements Initializable {
     @FXML
     void onActionModifyProduct(ActionEvent event) throws IOException {
 
-        stage = (Stage) ((Button)event.getSource()).getScene().getWindow();
-        scene = FXMLLoader.load(getClass().getResource("/view/ModifyProduct.fxml"));
-        stage.setScene(new Scene(scene));
-        stage.show();        
-        
+        if (productsTableview.getSelectionModel().getSelectedItem() != null)
+        {
+            Stage newstage; 
+            Parent root;       
+            newstage=(Stage) modifyProductsButton.getScene().getWindow();
+            FXMLLoader loader=new FXMLLoader(getClass().getResource("/view/ModifyProduct.fxml"));
+            root =loader.load();
+            Scene newscene = new Scene(root);
+            newstage.setScene(newscene);
+            newstage.show();
+            ModifyProductController MProdController = loader.getController();
+            MProdController.recieveProduct(productsTableview.getSelectionModel().getSelectedItem());
+        }
+        else
+        {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error Dialog");
+            alert.setContentText("Please select a product to modify.");
+            alert.showAndWait();
+        }        
     }
 
     @FXML
@@ -192,7 +229,7 @@ public class MainMenuController implements Initializable {
 
     @FXML
     void onActionSearchProduct(ActionEvent event) {
-        //productsTableview.setItems(model.Inventory.lookupProduct(productsSearchTxt.getText()));
+        productsTableview.setItems(model.Inventory.lookupProduct(productsSearchTxt.getText()));
     }
     
     @Override

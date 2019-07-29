@@ -76,7 +76,7 @@
                         <HBox alignment="TOP_RIGHT" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
                            <children>
                               <Button fx:id="addProductsButton" mnemonicParsing="false" onAction="#onActionAddProduct" text="Add" />
-                              <Button fx:id="modifyPartsButton" mnemonicParsing="false" onAction="#onActionModifyProduct" text="Modify" />
+                              <Button fx:id="modifyProductsButton" mnemonicParsing="false" onAction="#onActionModifyProduct" text="Modify" />
                               <Button fx:id="deletePartsButton" mnemonicParsing="false" onAction="#onActionDeleteProduct" text="Delete" />
                            </children>
                         </HBox>

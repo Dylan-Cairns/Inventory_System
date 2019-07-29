@@ -158,7 +158,7 @@ public class ModifyPartController implements Initializable {
                     {
                         index++;
                         if(part.getId() == id)
-                        getAllParts().set(index, tempInhousePart);
+                        Inventory.updatePart(index, tempInhousePart);
                     }
                 }
                 else

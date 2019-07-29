@@ -163,6 +163,7 @@ public class AddProductController implements Initializable {
             int min = Integer.parseInt(minTxt.getText());
             int max = Integer.parseInt(maxTxt.getText());
             double tempminPrice = 0.00;
+            Product tempProduct = new Product(id, name, price, stock, min, max);
             for(Part part : (Inventory.lookupProduct(Integer.parseInt(idTxt.getText()))).getAllAssociatedParts())
             {
                 tempminPrice += part.getPrice();
@@ -190,7 +191,14 @@ public class AddProductController implements Initializable {
                 alert.showAndWait();
             }
             else { // add new product
-                Inventory.addProduct(new Product(id, name, price, stock, min, max));
+                int index = -1;
+                for(Product product : Inventory.getAllProducts())
+                {
+                    index++;
+                    if(product.getId() == tempProduct.getId())
+                        Inventory.updateProduct(index, tempProduct);
+                        
+                }
                 
                 stage = (Stage) ((Button)event.getSource()).getScene().getWindow();
                 scene = FXMLLoader.load(getClass().getResource("/view/MainMenu.fxml"));
@@ -229,6 +237,8 @@ public class AddProductController implements Initializable {
         addPartTableviewInvLevelCol.setCellValueFactory(new PropertyValueFactory<>("stock"));
         
         addPartTableviewPricePerUnitCol.setCellValueFactory(new PropertyValueFactory<>("price"));
+        
+        deletePartTableview.setItems((Inventory.lookupProduct(Integer.parseInt(idTxt.getText()))).getAllAssociatedParts());
         
         deletePartTableviewPartIdCol.setCellValueFactory(new PropertyValueFactory<>("id"));
         
